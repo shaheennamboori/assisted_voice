@@ -3,6 +3,8 @@ import 'package:assisted_voice/second_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'Models/category.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -11,18 +13,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late Box<String> myBox;
+  late Box<Category> categories;
   List<String> entries = <String>[];
 
   @override
   void initState() {
     super.initState();
-    myBox = Hive.box<String>('myBox'); // Access the opened box
+    categories = Hive.box<Category>('categories'); // Access the opened box
   }
 
   // Add an entry to the box
-  void _addEntry(String entry) {
-    myBox.add(entry); // Add entry to the box
+  void _addEntry(Category category) {
+    categories.add(category); // Add entry to the box
   }
 
   @override
@@ -38,8 +40,8 @@ class _MyHomePageState extends State<MyHomePage> {
       //     itemBuilder: _itemBuilder),
 
       body: ValueListenableBuilder(
-        valueListenable: myBox.listenable(), // Listens for changes in the box
-        builder: (context, Box<String> box, _) {
+        valueListenable: categories.listenable(), // Listens for changes in the box
+        builder: (context, Box<Category> box, _) {
           if (box.isEmpty) {
             return const Center(child: Text("No entries yet"));
           }
@@ -49,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
             itemBuilder: (context, index) {
               final entry = box.getAt(index); // Retrieve entry at index
               return ListTile(
-                title: Text(entry ?? 'No entry'),
+                title: Text(entry?.name ?? 'No entry'),
                 trailing: IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {
@@ -61,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => SecondRoute(
-                        name: entry ?? 'No entry',
+                        name: entry?.name ?? 'No entry',
                       ),
                     ),
                   );
@@ -78,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
               context,
               MaterialPageRoute(
                   builder: (context) => AddCategory(addCategory: (myValue) {
-                        _addEntry('New Entry $myValue');
+                        _addEntry(Category('1', myValue));
                         // setState(() {
                         //   entries.add(myValue);
                         //   print("my value list $myValue");

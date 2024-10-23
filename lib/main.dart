@@ -2,9 +2,17 @@ import 'package:assisted_voice/home.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'Models/category.dart';
+import 'Models/category_item.dart';
+
 void main() async {
   await Hive.initFlutter(); // Initialize Hive for Flutter
-  await Hive.openBox<String>('myBox'); // Open a Hive box (a storage container)
+
+  // Register all the type adapters here
+  Hive.registerAdapter(CategoryAdapter());
+  Hive.registerAdapter(CategoryItemAdapter());
+
+  await Hive.openBox<Category>('categories'); // Open a Hive box (a storage container)
   runApp(const MyApp());
 }
 

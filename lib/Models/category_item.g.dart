@@ -19,7 +19,7 @@ class CategoryItemAdapter extends TypeAdapter<CategoryItem> {
     return CategoryItem(
       fields[0] as String,
       fields[1] as String,
-      fields[2] as Category,
+      fields[2] as String,
     );
   }
 
@@ -32,7 +32,7 @@ class CategoryItemAdapter extends TypeAdapter<CategoryItem> {
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.category);
+      ..write(obj.categoryId);
   }
 
   @override

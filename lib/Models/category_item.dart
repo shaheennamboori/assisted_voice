@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:assisted_voice/Models/category.dart';
 
 // Include the generated part file
 part 'category_item.g.dart';
@@ -13,7 +12,7 @@ class CategoryItem {
   final String name;
 
   @HiveField(2)
-  final Category category;
+  final String categoryId;
 
-  CategoryItem(this.id, this.name, this.category);
+  CategoryItem(this.id, this.name, this.categoryId);
 }
